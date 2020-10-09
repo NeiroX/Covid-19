@@ -2,6 +2,7 @@ import 'package:covid_19/constant.dart';
 import 'package:covid_19/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:covid_19/screens/details_screen.dart';
 
 class InfoScreen extends StatefulWidget {
   @override
@@ -45,6 +46,7 @@ class _InfoScreenState extends State<InfoScreen> {
               textTop: "Get to know",
               textBottom: "About Covid-19.",
               offset: offset,
+              isInfo: true,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -59,7 +61,7 @@ class _InfoScreenState extends State<InfoScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         SymptomCard(
                           image: "assets/images/headache.png",
@@ -107,6 +109,7 @@ class PreventCard extends StatelessWidget {
   final String image;
   final String title;
   final String text;
+
   const PreventCard({
     Key key,
     this.image,
@@ -167,7 +170,15 @@ class PreventCard extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/icons/forward.svg"),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailsScreen()));
+                        },
+                        child: SvgPicture.asset("assets/icons/forward.svg"),
+                      ),
                     ),
                   ],
                 ),
@@ -184,6 +195,7 @@ class SymptomCard extends StatelessWidget {
   final String image;
   final String title;
   final bool isActive;
+
   const SymptomCard({
     Key key,
     this.image,

@@ -1,15 +1,22 @@
 import 'package:covid_19/constant.dart';
-import 'package:covid_19/info_screen.dart';
+import 'package:covid_19/screens/info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyHeader extends StatefulWidget {
+  final bool isInfo;
   final String image;
   final String textTop;
   final String textBottom;
   final double offset;
+
   const MyHeader(
-      {Key key, this.image, this.textTop, this.textBottom, this.offset})
+      {Key key,
+      this.image,
+      this.textTop,
+      this.textBottom,
+      this.offset,
+      this.isInfo = false})
       : super(key: key);
 
   @override
@@ -22,7 +29,7 @@ class _MyHeaderState extends State<MyHeader> {
     return ClipPath(
       clipper: MyClipper(),
       child: Container(
-        padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+        padding: EdgeInsets.only(left: 20, top: 50, right: 20),
         height: 350,
         width: double.infinity,
         decoration: BoxDecoration(
@@ -41,18 +48,37 @@ class _MyHeaderState extends State<MyHeader> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return InfoScreen();
-                    },
-                  ),
-                );
-              },
-              child: SvgPicture.asset("assets/icons/menu.svg"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget.isInfo
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                      )
+                    : SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return InfoScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: SvgPicture.asset("assets/icons/menu.svg"),
+                ),
+              ],
             ),
             SizedBox(height: 20),
             Expanded(
@@ -77,7 +103,7 @@ class _MyHeaderState extends State<MyHeader> {
                       ),
                     ),
                   ),
-                  Container(), // I dont know why it can't work without container
+                  Container(),
                 ],
               ),
             ),
