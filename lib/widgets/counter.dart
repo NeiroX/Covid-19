@@ -1,16 +1,21 @@
 import 'package:covid_19/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Counter extends StatelessWidget {
   final int number;
   final Color color;
   final String title;
+  final int newCases;
+
   const Counter({
     Key key,
     this.number,
     this.color,
     this.title,
+    this.newCases,
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +42,16 @@ class Counter extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Text(
-          "$number",
+          NumberFormat("#,###", 'en_US').format(number).toString(),
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 18,
+            color: color,
+          ),
+        ),
+        Text(
+          "+${NumberFormat("#,###", 'en_US').format(newCases)}",
+          style: TextStyle(
+            fontSize: 14,
             color: color,
           ),
         ),
@@ -48,5 +60,3 @@ class Counter extends StatelessWidget {
     );
   }
 }
-
-

@@ -2,7 +2,6 @@ import 'package:covid_19/constant.dart';
 import 'package:covid_19/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:covid_19/screens/details_screen.dart';
 
 class InfoScreen extends StatefulWidget {
   @override
@@ -94,6 +93,16 @@ class _InfoScreenState extends State<InfoScreen> {
                     image: "assets/images/wash_hands.png",
                     title: "Wash your hands",
                   ),
+                  PreventCard(
+                    title: "Don't touch face",
+                    image: "assets/images/face.png",
+                    text: "The easiest way to get the virus is through the nose, eyes and mouth"
+                  ),
+                  PreventCard(
+                    title: "Stay at home",
+                    image: "assets/images/home.png",
+                    text: "Staying at home prevents the spread of the virus",
+                  ),
                   SizedBox(height: 50),
                 ],
               ),
@@ -166,18 +175,6 @@ class PreventCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailsScreen()));
-                        },
-                        child: SvgPicture.asset("assets/icons/forward.svg"),
                       ),
                     ),
                   ],

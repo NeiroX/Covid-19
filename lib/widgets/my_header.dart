@@ -48,37 +48,40 @@ class _MyHeaderState extends State<MyHeader> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                widget.isInfo
-                    ? GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: 10, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  widget.isInfo
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                          ),
+                        )
+                      : SizedBox(
+                          height: 0,
+                          width: 0,
                         ),
-                      )
-                    : SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return InfoScreen();
-                        },
-                      ),
-                    );
-                  },
-                  child: SvgPicture.asset("assets/icons/menu.svg"),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return InfoScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: SvgPicture.asset("assets/icons/menu.svg"),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             Expanded(

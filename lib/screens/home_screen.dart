@@ -1,8 +1,10 @@
-import 'package:covid_19/screens/details_screen.dart';
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'dart:async';
 
 import '../constant.dart';
@@ -10,6 +12,11 @@ import '../widgets/counter.dart';
 import '../widgets/my_header.dart';
 
 class HomeScreen extends StatefulWidget {
+
+  final String startCountry;
+
+  const HomeScreen({Key key, this.startCountry}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -17,13 +24,46 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = ScrollController();
   double offset = 0;
-  String currentCountry = kCountries[0];
+  String currentCountry;
+  int infected;
+  int deaths;
+  int recovered;
+  int newInfected;
+  int newDeaths;
+  int newRecovered;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      currentCountry = widget.startCountry;
+    });
     controller.addListener(onScroll);
+    getCovidInfoAboutCountry();
+  }
+
+  void getCovidInfoAboutCountry() {
+    var localCasesList = casesList;
+    if (currentCountry == 'Global') {
+      localCasesList = casesList['Global'];
+    } else {
+      for (var element in casesList['Countries']) {
+        if (element['Slug'] ==
+                currentCountry.toLowerCase().replaceAll(RegExp(' '), '-') ||
+            element['Country'] == currentCountry) {
+          localCasesList = element;
+        }
+      }
+    }
+    setState(() {
+      infected = localCasesList['TotalConfirmed'];
+      newInfected = localCasesList['NewConfirmed'];
+      deaths = localCasesList['TotalDeaths'];
+      newDeaths = localCasesList['NewDeaths'];
+      recovered = localCasesList['TotalRecovered'];
+      newRecovered = localCasesList['NewRecovered'];
+    });
   }
 
   @override
@@ -45,7 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return formattedText;
   }
 
-  _launchURL(String url) async {
+
+
+  void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -98,6 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onChanged: (value) {
                         setState(() {
                           currentCountry = value;
+                          getCovidInfoAboutCountry();
                         });
                       },
                     ),
@@ -129,11 +172,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Spacer(),
-                      Text(
-                        "See details",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w600,
+                      FlatButton(
+                        onPressed: () {
+                          _launchURL('https://covid19.who.int/table');
+                        },
+                        child: Text(
+                          "See details",
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -157,17 +205,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: <Widget>[
                         Counter(
                           color: kInfectedColor,
-                          number: 36694318,
+                          number: infected,
+                          newCases: newInfected,
                           title: "Infected",
                         ),
                         Counter(
                           color: kDeathColor,
-                          number: 25509783,
+                          number: deaths,
+                          newCases: newDeaths,
                           title: "Deaths",
                         ),
                         Counter(
                           color: kRecovercolor,
-                          number: 1064204,
+                          number: recovered,
+                          newCases: newRecovered,
                           title: "Recovered",
                         ),
                       ],

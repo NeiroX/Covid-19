@@ -3,9 +3,8 @@ import 'package:covid_19/screens/home_screen.dart';
 import 'package:covid_19/widgets/counter.dart';
 import 'package:covid_19/widgets/my_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'screens/loading.dart';
 
-import 'constant.dart';
 import 'constant.dart';
 
 void main() => runApp(MyApp());
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
               bodyText1: TextStyle(color: kBodyTextColor),
           )),
-      home: HomeScreen(),
+      home: LoadingScreen(),
     );
   }
 }
